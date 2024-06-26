@@ -43,8 +43,8 @@ if uploaded_file is not None:
 
     # Display FPS
     st.write(f"FPS (MatMul/Conv Ops only): {round(fps_filtered, 3)}")
-    st.write(f"FPS (All Ops): {round(fps, 3)}")
     st.write(f"FPS (Other Device Ops): {round(fps_other, 3)}")
+    st.write(f"FPS (All Ops): {round(fps, 3)}")
 
     adjUtil = 'Adjusted Utilization = (PM ideal/device kernel duration)*(108/core count)'
 
@@ -85,30 +85,6 @@ if uploaded_file is not None:
         mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     )
 
-    # Create a simplified DataFrame with overall FPS + Adj Util
-    overall_df = df_excel.copy()
-    overall_df['FPS (all ops)'] = round(fps, 3)
-    overall_df['FPS (matmul/conv ops only)'] = round(fps_filtered, 3)
-    overall_df[adjUtil] = ((overall_df['PM IDEAL [ns]'] / overall_df['DEVICE KERNEL DURATION [ns]']) * (108 / overall_df['CORE COUNT']) * 100)
-    overall_df[adjUtil] = overall_df[adjUtil].replace([np.inf, -np.inf], np.nan).fillna(0)
-    overall_df[adjUtil] = overall_df[adjUtil].astype(float)
-    overall_df[adjUtil] = overall_df[adjUtil].astype(int).astype(str) + '%'
-    overall_df = overall_df[cols]
-    overall_df['FPS (all ops)'] = round(fps, 3)
-
-    output_overall = BytesIO()
-    with pd.ExcelWriter(output_overall, engine='xlsxwriter') as writer:
-        overall_df.to_excel(writer, index=False, sheet_name='Overall Data')
-    overall_data = output_overall.getvalue()
-
-    # Button to download the full file
-    st.download_button(
-        label="Download Full Performance Sheet",
-        data=overall_data,
-        file_name="full_perf_sheet.xlsx",
-        mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    )
-
     other_device_ops_df[adjUtil] = ((other_device_ops_df['PM IDEAL [ns]'] / other_device_ops_df['DEVICE KERNEL DURATION [ns]']) * (108 / other_device_ops_df['CORE COUNT']) * 100)
     other_device_ops_df[adjUtil] = other_device_ops_df[adjUtil].replace([np.inf, -np.inf], np.nan).fillna(0)
     other_device_ops_df[adjUtil] = other_device_ops_df[adjUtil].astype(float)
@@ -139,5 +115,29 @@ if uploaded_file is not None:
         label="Download Other Device Operations Sheet",
         data=other_device_ops_data,
         file_name="other_device_ops_perf_sheet.xlsx",
+        mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    )
+
+    # Create a simplified DataFrame with overall FPS + Adj Util
+    overall_df = df_excel.copy()
+    overall_df['FPS (all ops)'] = round(fps, 3)
+    overall_df['FPS (matmul/conv ops only)'] = round(fps_filtered, 3)
+    overall_df[adjUtil] = ((overall_df['PM IDEAL [ns]'] / overall_df['DEVICE KERNEL DURATION [ns]']) * (108 / overall_df['CORE COUNT']) * 100)
+    overall_df[adjUtil] = overall_df[adjUtil].replace([np.inf, -np.inf], np.nan).fillna(0)
+    overall_df[adjUtil] = overall_df[adjUtil].astype(float)
+    overall_df[adjUtil] = overall_df[adjUtil].astype(int).astype(str) + '%'
+    overall_df = overall_df[cols]
+    overall_df['FPS (all ops)'] = round(fps, 3)
+
+    output_overall = BytesIO()
+    with pd.ExcelWriter(output_overall, engine='xlsxwriter') as writer:
+        overall_df.to_excel(writer, index=False, sheet_name='Overall Data')
+    overall_data = output_overall.getvalue()
+
+    # Button to download the full file
+    st.download_button(
+        label="Download Full Performance Sheet",
+        data=overall_data,
+        file_name="full_perf_sheet.xlsx",
         mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     )
