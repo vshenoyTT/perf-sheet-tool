@@ -31,7 +31,7 @@ if uploaded_file is not None:
     fps_filtered = 1 / total_device_kernel_duration_s_filtered
     fps = 1 / total_device_kernel_duration_s
 
-    # Create a third sheet with other device operations
+    # Create a sheet for other device operations
     other_device_ops_df = df_excel[
         (df_excel['OP TYPE'] == 'tt_dnn_device') &
         (~df_excel['OP CODE'].str.contains('matmult|conv', case=False, na=False))
@@ -41,7 +41,7 @@ if uploaded_file is not None:
     total_device_kernel_duration_s_other = total_device_kernel_duration_ns_other * 1e-9
     fps_other = 1 / total_device_kernel_duration_s_other
 
-    # Display FPS
+    # Display FPS on interface
     st.write(f"FPS (MatMul/Conv Ops only): {round(fps_filtered, 3)}")
     st.write(f"FPS (Other Device Ops): {round(fps_other, 3)}")
     st.write(f"FPS (All Ops): {round(fps, 3)}")
@@ -70,7 +70,7 @@ if uploaded_file is not None:
     cols.insert(cols.index(adjUtil), 'DEVICE KERNEL DURATION [ns]')
     filtered_df = filtered_df[cols]
 
-    # Convert DataFrame to Excel for filtered data
+    # Convert DataFrame --> Excel for filtered data
     output = BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         filtered_df.to_excel(writer, index=False, sheet_name='Processed Data')
@@ -91,7 +91,7 @@ if uploaded_file is not None:
     other_device_ops_df[adjUtil] = other_device_ops_df[adjUtil].astype(int).astype(str) + '%'
     other_device_ops_df['FPS (other device ops)'] = round(fps_other, 3)
 
-    # Reorder columns for other device operations
+    # Reorder columns for other device ops
     cols_other = list(other_device_ops_df.columns)
     cols_other.remove('DEVICE KERNEL DURATION [ns]')
     cols_other.remove('CORE COUNT')
@@ -118,7 +118,7 @@ if uploaded_file is not None:
         mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     )
 
-    # Create a simplified DataFrame with overall FPS + Adj Util
+    # Create a simple DataFrame with overall FPS + Adj Util
     overall_df = df_excel.copy()
     overall_df['FPS (all ops)'] = round(fps, 3)
     overall_df['FPS (matmul/conv ops only)'] = round(fps_filtered, 3)
