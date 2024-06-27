@@ -5,9 +5,6 @@ from io import BytesIO
 
 # Streamlit application to analyze Tenstorrent performance sheets
 
-st.set_page_config(
-        page_title="Tenstorrent Perf Sheet Tool",
-)
 st.title('Tenstorrent Perf Sheet Processor')
 st.markdown("Calculate FPS and Adjusted Utilization, along with filtering a sheet to specific operations")
 
