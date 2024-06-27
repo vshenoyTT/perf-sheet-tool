@@ -206,8 +206,6 @@ if uploaded_file is not None:
 
         # Convert DataFrame --> CSV for filtered data
         output = BytesIO()
-        #with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-            #filtered_df.to_excel(writer, index=False, sheet_name='Processed Data')
         processed_data = filtered_df.to_csv(index=False)
 
         # Button to download the filtered file
@@ -239,8 +237,6 @@ if uploaded_file is not None:
         other_device_ops_df = other_device_ops_df[cols_other]
 
         output_other_device_ops = BytesIO()
-        #with pd.ExcelWriter(output_other_device_ops, engine='xlsxwriter') as writer:
-            #other_device_ops_df.to_csv(writer, index=False, sheet_name='Other Device Ops')
         other_device_ops_data = filtered_df.to_csv(index=False)
 
         # Button to download the other device operations file
@@ -263,8 +259,6 @@ if uploaded_file is not None:
         overall_df['FPS (all ops)'] = round(fps, 3)
 
         output_overall = BytesIO()
-        #with pd.ExcelWriter(output_overall, engine='xlsxwriter') as writer:
-            #overall_df.to_excel(writer, index=False, sheet_name='Overall Data')
         overall_data = filtered_df.to_csv(index=False)
 
         # Button to download the full file
