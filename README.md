@@ -4,4 +4,4 @@ A easy-to-use performance sheet analysis tool for Tenstorrent models. Built usin
 
 The tool is deployed and available for use <a href="https://perfsheet.streamlit.app" target="_blank">here</a>.
 
-To run locally, install the requirements from requirements.txt with the command 'pip install -r /path/to/requirements.txt'. Then, within the directory, run the command 'streamlit run streamlit_app.py'. The tool will open up on a local host port.
+To run locally, install the requirements from requirements.txt with the command 'pip install -r /path/to/requirements.txt'. Then, within the directory, run the command 'streamlit run streamlit_app.py'. The web tool will open up on a local host port.
