@@ -46,7 +46,7 @@ if uploaded_file is not None:
 
         # Display FPS on interface
         st.write(f"FPS (MatMul/Conv Ops only): {round(fps_filtered, 3)}")
-        st.write(f"FPS (Other Device Ops): {round(fps_other, 3)}")
+        st.write(f"FPS (Other On-Device Ops): {round(fps_other, 3)}")
         st.write(f"FPS (All Ops): {round(fps, 3)}")
 
         adjUtil = 'Adjusted Utilization = (PM ideal/device kernel duration)*(108/core count)'
@@ -115,7 +115,7 @@ if uploaded_file is not None:
 
         # Button to download the other device operations file
         st.download_button(
-            label="Download Other Device Operations Sheet",
+            label="Download Other On-Device Operations Sheet",
             data=other_device_ops_data,
             file_name="other_device_ops_perf_sheet.xlsx",
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
