@@ -8,6 +8,13 @@ from io import BytesIO
 st.title('Tenstorrent Perf Sheet Processor')
 st.markdown("Calculate FPS and Adjusted Utilization, along with filtering a sheet to specific operations")
 
+hide_decoration_bar_style = '''
+    <style>
+        header {visibility: hidden;}
+    </style>
+'''
+st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
+
 # File uploader for excel or csv
 uploaded_file = st.file_uploader("Upload an excel or csv performance sheet", type=["xlsx", "csv"])
 
