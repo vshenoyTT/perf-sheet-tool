@@ -1,6 +1,6 @@
 **Perf Sheet Analysis Tool**
 
-A easy-to-use performance sheet analysis tool for Tenstorrent models. Built using Streamlit for the interface, along with Pandas and NumPy for data manipulation and sheet formatting.
+An easy-to-use performance sheet analysis tool for Tenstorrent models. Built using Streamlit for the interface, along with Pandas and NumPy for data manipulation and sheet formatting.
 
 The tool is deployed for use <a href="https://perfsheet.streamlit.app" target="_blank">here</a>.
 
