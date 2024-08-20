@@ -51,9 +51,6 @@ if uploaded_file is not None:
         total_device_kernel_duration_s_other = total_device_kernel_duration_ns_other * 1e-9
         fps_other = 1 / total_device_kernel_duration_s_other
 
-        if fps_filtered == np.inf:
-            fps_filtered = 0
-
         # Display FPS on interface
         st.write(f"FPS (MatMul/Conv Ops only): {round(fps_filtered, 3)}")
         st.write(f"FPS (Other On-Device Ops): {round(fps_other, 3)}")
