@@ -23,7 +23,7 @@ if option == 'Grayskull':
 else:
     core_count = 64
 
-st.write(f"Selected configuration: {option}, Core Count: {core_count}")
+#st.write(f"Selected configuration: {option}, Core Count: {core_count}")
 st.write("")
 
 # File uploader for excel or csv
