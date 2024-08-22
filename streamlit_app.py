@@ -15,6 +15,17 @@ hide_decoration_bar_style = '''
 '''
 st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
 
+option = st.radio("Select Configuration:", ('Grayskull', 'Wormhole'))
+
+core_count = 0
+if option == 'Grayskull':
+    core_count = 108
+else:
+    core_count = 64
+
+st.write(f"Selected configuration: {option}, Core Count: {core_count}")
+st.write("")
+
 # File uploader for excel or csv
 uploaded_file = st.file_uploader("Upload an excel or csv performance sheet", type=["xlsx", "csv"])
 
@@ -59,7 +70,7 @@ if uploaded_file is not None:
         adjUtil = 'Adjusted Utilization = (PM ideal/device kernel duration)*(108/core count)'
 
         # Calculate Adjusted Utilization for the filtered data
-        filtered_df[adjUtil] = ((filtered_df['PM IDEAL [ns]'] / filtered_df['DEVICE KERNEL DURATION [ns]']) * (108 / filtered_df['CORE COUNT']) * 100)
+        filtered_df[adjUtil] = ((filtered_df['PM IDEAL [ns]'] / filtered_df['DEVICE KERNEL DURATION [ns]']) * (core_count / filtered_df['CORE COUNT']) * 100)
         filtered_df[adjUtil] = filtered_df[adjUtil].replace([np.inf, -np.inf], np.nan).fillna(0)
 
         filtered_df[adjUtil] = filtered_df[adjUtil].astype(float)
@@ -95,7 +106,7 @@ if uploaded_file is not None:
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         )
 
-        other_device_ops_df[adjUtil] = ((other_device_ops_df['PM IDEAL [ns]'] / other_device_ops_df['DEVICE KERNEL DURATION [ns]']) * (108 / other_device_ops_df['CORE COUNT']) * 100)
+        other_device_ops_df[adjUtil] = ((other_device_ops_df['PM IDEAL [ns]'] / other_device_ops_df['DEVICE KERNEL DURATION [ns]']) * (core_count / other_device_ops_df['CORE COUNT']) * 100)
         other_device_ops_df[adjUtil] = other_device_ops_df[adjUtil].replace([np.inf, -np.inf], np.nan).fillna(0)
         other_device_ops_df[adjUtil] = other_device_ops_df[adjUtil].astype(float)
         other_device_ops_df[adjUtil] = other_device_ops_df[adjUtil].astype(int).astype(str) + '%'
@@ -132,7 +143,7 @@ if uploaded_file is not None:
         overall_df = df_excel.copy()
         overall_df['FPS (all ops)'] = round(fps, 3)
         overall_df['FPS (matmul/conv ops only)'] = round(fps_filtered, 3)
-        overall_df[adjUtil] = ((overall_df['PM IDEAL [ns]'] / overall_df['DEVICE KERNEL DURATION [ns]']) * (108 / overall_df['CORE COUNT']) * 100)
+        overall_df[adjUtil] = ((overall_df['PM IDEAL [ns]'] / overall_df['DEVICE KERNEL DURATION [ns]']) * (core_count / overall_df['CORE COUNT']) * 100)
         overall_df[adjUtil] = overall_df[adjUtil].replace([np.inf, -np.inf], np.nan).fillna(0)
         overall_df[adjUtil] = overall_df[adjUtil].astype(float)
         overall_df[adjUtil] = overall_df[adjUtil].astype(int).astype(str) + '%'
@@ -190,7 +201,7 @@ if uploaded_file is not None:
         adjUtil = 'Adjusted Utilization = (PM ideal/device kernel duration)*(108/core count)'
 
         # Calculate Adjusted Utilization for the filtered data
-        filtered_df[adjUtil] = ((filtered_df['PM IDEAL [ns]'] / filtered_df['DEVICE KERNEL DURATION [ns]']) * (108 / filtered_df['CORE COUNT']) * 100)
+        filtered_df[adjUtil] = ((filtered_df['PM IDEAL [ns]'] / filtered_df['DEVICE KERNEL DURATION [ns]']) * (core_count / filtered_df['CORE COUNT']) * 100)
         filtered_df[adjUtil] = filtered_df[adjUtil].replace([np.inf, -np.inf], np.nan).fillna(0)
 
         filtered_df[adjUtil] = filtered_df[adjUtil].astype(float)
@@ -223,7 +234,7 @@ if uploaded_file is not None:
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         )
 
-        other_device_ops_df[adjUtil] = ((other_device_ops_df['PM IDEAL [ns]'] / other_device_ops_df['DEVICE KERNEL DURATION [ns]']) * (108 / other_device_ops_df['CORE COUNT']) * 100)
+        other_device_ops_df[adjUtil] = ((other_device_ops_df['PM IDEAL [ns]'] / other_device_ops_df['DEVICE KERNEL DURATION [ns]']) * (core_count / other_device_ops_df['CORE COUNT']) * 100)
         other_device_ops_df[adjUtil] = other_device_ops_df[adjUtil].replace([np.inf, -np.inf], np.nan).fillna(0)
         other_device_ops_df[adjUtil] = other_device_ops_df[adjUtil].astype(float)
         other_device_ops_df[adjUtil] = other_device_ops_df[adjUtil].astype(int).astype(str) + '%'
@@ -258,7 +269,7 @@ if uploaded_file is not None:
         overall_df = df_csv.copy()
         overall_df['FPS (all ops)'] = round(fps, 3)
         overall_df['FPS (matmul/conv ops only)'] = round(fps_filtered, 3)
-        overall_df[adjUtil] = ((overall_df['PM IDEAL [ns]'] / overall_df['DEVICE KERNEL DURATION [ns]']) * (108 / overall_df['CORE COUNT']) * 100)
+        overall_df[adjUtil] = ((overall_df['PM IDEAL [ns]'] / overall_df['DEVICE KERNEL DURATION [ns]']) * (core_count / overall_df['CORE COUNT']) * 100)
         overall_df[adjUtil] = overall_df[adjUtil].replace([np.inf, -np.inf], np.nan).fillna(0)
         overall_df[adjUtil] = overall_df[adjUtil].astype(float)
         overall_df[adjUtil] = overall_df[adjUtil].astype(int).astype(str) + '%'
